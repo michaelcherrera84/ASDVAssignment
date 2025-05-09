@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../templates/layout.xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="title" value="#{msgs.applicationTitle} - #{assignmentBean.assignment.name}"/>
+    <layoutParams>
+        <ui:param name="area1" value="header"/>
+        <ui:param name="area2" value="header"/>
+        <ui:param name="area3" value="header"/>
+        <ui:param name="area4" value="left"/>
+        <ui:param name="area5" value="main"/>
+        <ui:param name="area6" value="right"/>
+        <ui:param name="area7" value="footer"/>
+        <ui:param name="area8" value="footer"/>
+        <ui:param name="area9" value="right"/>
+        <ui:param name="col1" value="0"/>
+        <ui:param name="col2" value="75%"/>
+        <ui:param name="col3" value="25%"/>
+    </layoutParams>
+    <renderParams>
+        <ui:param name="left" value="false"/>
+        <ui:param name="footer" value="false"/>
+        <ui:param name="right" value="true"/>
+    </renderParams>
+
+    <ui:define name="head">
+        <h:outputStylesheet library="css" name="header.css"/>
+        <style>
+            .ui-datatable thead th {
+                display: none;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="header">
+        <h:form id="nav_form">
+            <p:link value="#{msgs.navAssignments}" outcome="assignments_table.xhtml" title="#{msgs.navToAssignments}"/>
+        </h:form>
+        <h1>#{assignmentBean.assignment.name}</h1>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:growl id="growl" showDetail="true" skipDetailIfEqualsSummary="true" keepAlive="true">
+            <p:autoUpdate/></p:growl>
+        <p:dataTable id="problems_table" widgetVar="problems_table" value="#{assignmentBean.problemBeanList}"
+                     var="bean" rowIndexVar="i" editable="true" multiViewState="true" styleClass="pt50">
+            <p:column headerText="#{msgs.problemHeader}" sortBy="#{bean.problem.num}" sortOrder="asc">
+                <span id="section#{i}"></span>
+                <ui:include src="problem_editor.xhtml">
+                    <ui:param name="bean" value="#{bean}"/>
+                    <ui:param name="parent" value="problems_table"/>
+                    <ui:param name="parent1" value="section_table"/>
+                    <ui:param name="parent2" value="section_sticky"/>
+                </ui:include>
+            </p:column>
+        </p:dataTable>
+
+        <h:form id="problem_add_form">
+            <p:commandButton value="#{msgs.saveAssignmentValue}" action="#{assignmentBean.saveExam()}" icon="pi pi-save"
+                             styleClass="ui-button-raised ui-button-success" onclick="save()" process="@all"
+                             update="problems_table" title="#{msgs.saveAssignmentTitle}"/><p:spacer width="20"/>
+            <p:commandButton value="#{msgs.addProblem}" icon="pi pi-plus" title="#{msgs.addProblemTitle}"
+                             onclick="PF('problem_add_inplace').show()" styleClass="ui-button-raised"/>
+            <p:spacer width="10"/>
+            <p:inplace widgetVar="problem_add_inplace" editor="true" effectSpeed="fast">
+                <p:inputText value="#{assignmentBean.newProblemName}" placeholder="#{msgs.problemName}"/>
+                <p:spacer width="10"/>
+                <p:inputText value="#{assignmentBean.newProblemPoints}" placeholder="#{msgs.problemPoints}"/>
+                <p:ajax event="save" listener="#{assignmentBean.addProblem()}"
+                        update="problems_table section_table section_sticky"
+                        oncomplete="PF('problem_add_inplace').hide(); scrollToBottom()"/>
+            </p:inplace>
+            <p:ajaxStatus id="ajax_status" onstart="PF('status').show()" onerror="PF('status').hide()"
+                          onsuccess="PF('status').hide()" delay="1000"/>
+            <p:dialog widgetVar="status" draggable="false" closable="false" resizable="false"
+                      showHeader="false">
+                <div class="text-center status_spinner">
+                    <i class="pi pi-spin pi-spinner loading-icon" aria-hidden="true"/>
+                </div>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="right">
+        <div id="section_table_container">
+            <p:dataTable id="section_table" value="#{assignmentBean.problemBeanList}" var="problem" rowIndexVar="i"
+                         styleClass="section_table" rowStyleClass="section_table_row">
+                <p:column>
+                    <p:link href="#section#{i}">#{problem.problemName}</p:link>
+                </p:column>
+            </p:dataTable>
+        </div>
+        <p:sticky id="section_sticky" target="section_table"/>
+    </ui:define>
+</ui:composition>

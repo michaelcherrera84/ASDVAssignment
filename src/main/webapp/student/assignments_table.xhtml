@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../templates/layout.xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="title" value="#{msgs.applicationTitle}"/>
+    <layoutParams>
+        <ui:param name="area1" value="header"/>
+        <ui:param name="area2" value="header"/>
+        <ui:param name="area3" value="header"/>
+        <ui:param name="area4" value="left"/>
+        <ui:param name="area5" value="main"/>
+        <ui:param name="area6" value="right"/>
+        <ui:param name="area7" value="footer"/>
+        <ui:param name="area8" value="footer"/>
+        <ui:param name="area9" value="right"/>
+        <ui:param name="col1" value="25%"/>
+        <ui:param name="col2" value="50%"/>
+        <ui:param name="col3" value="25%"/>
+    </layoutParams>
+    <renderParams>
+        <ui:param name="left" value="false"/>
+        <ui:param name="footer" value="false"/>
+        <ui:param name="right" value="true"/>
+    </renderParams>
+
+
+    <ui:define name="header">
+        <h1>Assignments</h1>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:growl id="messages" showDetail="true" skipDetailIfEqualsSummary="true"><p:autoUpdate/></p:growl>
+        <h:form id="assignments_form">
+            <p:dataTable id="assignments_table" value="#{studentAssignmentsBean.assignments}" var="assignment" rowIndexVar="i">
+                <p:column headerText="Name" sortOrder="#{assignment.id}">
+                    <p:commandLink id="assignment_link" value="#{assignment.name}" process="@this"
+                                   action="#{studentAssignmentsBean.openAssignment(assignment)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,17 @@
+.header {
+    padding: 10px 30px 7px 0;
+    text-align: right;
+    color: white;
+    background-color: #218fe8;
+}
+
+.header .problem_title {
+    text-align: left;
+    background-color: white;
+    color: #218fe8;
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
+}

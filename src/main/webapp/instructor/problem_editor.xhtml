@@ -1,0 +1,174 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <header id="problem_title">
+        <h2 class="inline problem_title">Problem ##{i + 1}</h2>
+
+        <h:form styleClass="right">
+            <p:commandButton action="#{assignmentBean.removeProblem(bean)}" update="#{parent} #{parent1} #{parent2}"
+                             icon="pi pi-trash" styleClass="ui-button-danger ui-button-raised"
+                             title="#{msgs.deleteProblemTitle}" oncomplete="scrollToBottom()"/>
+        </h:form>
+    </header>
+    <h:form id="problem_form">
+        <p:remoteCommand name="attemptedCount" actionListener="#{bean.setAttemptCount()}"/>
+        <p:remoteCommand name="setFileWaiting" actionListener="#{bean.setFilesWaiting()}"/>
+        <input name="bean" value="#{bean}" hidden="hidden"/>
+        <div class="mb10">
+            <p:outputLabel for="problem_name_input" value="#{msgs.nameLabel}" indicateRequired="false"
+                           styleClass="mr10"/>
+            <p:inputText id="problem_name_input" value="#{bean.problemName}" required="true">
+                <p:ajax event="change" listener="#{bean.onProblemChanged}"/>
+            </p:inputText>
+            <div class="right">
+                <p:outputLabel for="problem_points_input" value="#{msgs.pointLabel}" indicateRequired="false"
+                               styleClass="mr10"/>
+                <p:inputNumber id="problem_points_input" value="#{bean.problemPoints}" size="4"
+                               decimalPlaces="0" modifyValueOnWheel="false" required="true">
+                    <p:ajax event="change" listener="#{bean.onProblemChanged}"/>
+                </p:inputNumber>
+            </div>
+        </div>
+        <p:textEditor id="problem_editor" value="#{bean.text}" widgetVar="#{bean}problem_editor" secure="false"
+                      allowImages="true" allowLinks="true" allowBlocks="true" allowStyles="true"
+                      allowFormatting="true" height="300" placeholder="Enter problem text here...">
+            <p:ajax event="change" listener="#{bean.onTextChanged}" global="false" onstart="change()"/>
+            <f:facet name="toolbar">
+                <span class="ql-formats">
+                    <select class="ql-font" style="width: 95px;" title="#{msgs.fontTitle}"/>
+                    <select class="ql-size" style="width: 80px;" title="#{msgs.fontSizeTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-bold" title="#{msgs.boldTitle}"/>
+                    <button class="ql-italic" title="#{msgs.italicTitle}"/>
+                    <button class="ql-underline" title="#{msgs.underlineTitle}"/>
+                    <button class="ql-strike" title="#{msgs.strikethroughTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-color" title="#{msgs.fontColorTitle}"/>
+                    <select class="ql-background" title="#{msgs.fontBackgroundColorTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-script" value="sub" title="#{msgs.subscriptTitle}"/>
+                    <button class="ql-script" value="super" title="#{msgs.superscriptTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-header" value="1" title="#{msgs.h1title}"/>
+                    <button class="ql-header" value="2" title="#{msgs.h2title}"/>
+                    <button class="ql-blockquote" title="#{msgs.blockquoteTitle}"/>
+                    <button class="ql-code-block" title="#{msgs.codeBlockTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered" title="#{msgs.orderedListTitle}"/>
+                    <button class="ql-list" value="bullet" title="#{msgs.buttletListTitle}"/>
+                    <button class="ql-indent" value="-1" title="#{msgs.indentTitle}"/>
+                    <button class="ql-indent" value="+1" title="#{msgs.unindentTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-direction" value="rtl" title="#{msgs.textDirectionTitle}"/>
+                    <select class="ql-align" title=" #{msgs.textAlignTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link" title="#{msgs.linkTitle}"/>
+                    <button class="ql-image" title="#{msgs.imageTitle}"/>
+                    <button class="ql-video" title="#{msgs.videoTitle}"/>
+                    <button class="ql-formula" title="#{msgs.formulaTitle}"/>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-clean" title="#{msgs.cleanTitle}"/>
+                </span>
+                <span id="file_span">
+                    <p:inplace id="file_inplace" editor="true" cancelLabel="#{msgs.inplaceCancelLabel}">
+                        <f:facet name="output">
+                            <p:graphicImage library="images" name="#{bean.links.isEmpty() ? 'add.png' :
+                            'paper_clip.png'}" title="#{msgs.attachFilesTitle}" height="20px" width="20px"
+                                            styleClass="add_button"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:fileUpload id="file_upload" widgetVar="#{bean}file_upload"
+                                          listener="#{bean.uploadFile}" mode="advanced"
+                                          multiple="true" sequential="true" dragDropSupport="true"
+                                          sizeLimit="1073741824" fileLimit="5" previewWidth="50"
+                                          chooseButtonTitle="#{msgs.chooseButtonTitle}"
+                                          uploadButtonTitle="#{msgs.uploadButtonTitle}"
+                                          cancelButtonTitle="#{msgs.cancelButtonTitle}"
+                                          fileLimitMessage="#{msgs.fileLimitMessage}"
+                                          invalidSizeMessage="#{msgs.invalidSizeMessage}"
+                                          chooseButtonStyleClass="ui-button-raised"
+                                          uploadButtonStyleClass="file_upload_buttons ui-button-raised"
+                                          cancelButtonStyleClass="file_upload_buttons ui-button-raised"
+                                          update="file_links" onupload="uploadCount();"
+                                          onAdd="changed(file, callback);">
+                                <span id="download_span">
+                                    <p:dataTable id="file_links" value="#{bean.links}" var="link">
+                                        <p:column>
+                                            <p:commandLink value="#{link}" ajax="false"
+                                                           title="#{msgs.downloadFileTitle}"
+                                                           actionListener="#{bean.setDownloadFile(link)}">
+                                                <p:fileDownload value="#{bean.downloadFile()}"/>
+                                            </p:commandLink>
+                                            <p:commandLink value="X" action="#{bean.deleteFile(link)}"
+                                                           title="#{msgs.deleteFileTitle}" update="file_links"
+                                                           styleClass="file_delete_button"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </span>
+                            </p:fileUpload>
+                        </f:facet>
+                    </p:inplace>
+                </span>
+            </f:facet>
+        </p:textEditor>
+        <div id="radio_div">
+            <p:selectOneRadio id="answer_radio" value="#{bean.correctAnswer}" unselectable="true" onchange="change()">
+                <p:ajax event="click" listener="#{bean.onAnswerChanged}"/>
+                <f:selectItem itemValue="1"/>
+                <f:selectItem itemValue="2"/>
+                <f:selectItem itemValue="3"/>
+                <f:selectItem itemValue="4"/>
+
+                <f:facet name="custom">
+                    <span class="mt10 mb10 block">
+                        <p:radioButton id="facet1" for="answer_radio" itemIndex="0"/>
+                        <p:inputText value="#{bean.answer1}" styleClass="answer_input" oninput="change()">
+                            <p:ajax event="change" listener="#{bean.onAnswerChanged}"/>
+                        </p:inputText>
+                    </span>
+                    <span class="mb10 block">
+                        <p:radioButton id="facet2" for="answer_radio" itemIndex="1"/>
+                        <p:inputText value="#{bean.answer2}" styleClass="answer_input" oninput="change()">
+                            <p:ajax event="change" listener="#{bean.onAnswerChanged}"/>
+                        </p:inputText>
+                    </span>
+                    <span class="mb10 block">
+                        <p:radioButton id="facet3" for="answer_radio" itemIndex="2"/>
+                        <p:inputText value="#{bean.answer3}" styleClass="answer_input" oninput="change()">
+                            <p:ajax event="change" listener="#{bean.onAnswerChanged}"/>
+                        </p:inputText>
+                    </span>
+                    <span class="mb10 block">
+                        <p:radioButton id="facet4" for="answer_radio" itemIndex="3"/>
+                        <p:inputText value="#{bean.answer4}" styleClass="answer_input" oninput="change()">
+                            <p:ajax event="change" listener="#{bean.onAnswerChanged}"/>
+                        </p:inputText>
+                    </span>
+                </f:facet>
+            </p:selectOneRadio>
+        </div>
+        <div class="bottom_buttons">
+            <p:commandButton id="problem_save" value="#{msgs.saveEditsButtonValue}"
+                             action="#{bean.saveProblem()}" update="problem_editor"
+                             title="#{msgs.saveEditsButtonTitle}" icon="pi pi-save" onclick="save()"
+                             styleClass="ui-button-raised"/>
+            <p:commandButton id="problem_cancel" value="#{msgs.cancelEditsButtonValue}"
+                             action="#{bean.cancelEdits()}" title="#{msgs.cancelEditsButtonTitle}"
+                             icon="pi pi-times" onclick="checkFiles()" update="@none"
+                             styleClass="ui-button-warning ui-button-raised right">
+                <p:ajax event="dialogReturn" listener="#{bean.onCancelSubmission}"/>
+            </p:commandButton>
+        </div>
+    </h:form>
+</ui:composition>

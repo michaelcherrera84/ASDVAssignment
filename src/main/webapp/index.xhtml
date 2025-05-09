@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>#{msgs.applicationTitle}</title>
+    <h:outputStylesheet library="css" name="login.css"/>
+</h:head>
+<h:body>
+    <div id="wrapper">
+        <h:form id="user_form">
+            <p:avatar id="user_avatar" icon="pi pi-user" size="xlarge" styleClass="ui-avatar"/>
+            <p:menu overlay="true" trigger="user_avatar" my="left top" at="left bottom">
+                <p:menuitem value="#{msgs.login}" icon="pi pi-sign-in" onclick="PF('login_inplace').show();"/>
+            </p:menu>
+        </h:form>
+        <p:graphicImage id="banner" library="images" name="banner2.png" alt="ASDV banner"/>
+        <p:inplace id="login_inplace" widgetVar="login_inplace" effect="slide">
+            <div id="login">
+                <h1>#{msgs.login}</h1>
+                <div class="login_div">
+                    <p:growl id="messages" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                    <h:form id="login_form">
+                        <p:inputText id="username" value="#{loginBean.username}" placeholder="#{msgs.username}"
+                                     styleClass="login_field mb20"/>
+                        <p:password id="password" value="#{loginBean.password}" placeholder="#{msgs.password}"
+                                    toggleMask="true" styleClass="login_field" ignoreLastPass="true"/>
+                        <p:commandButton id="submit_button" ajax="false" value="#{msgs.submitButtonValue}"
+                                         action="#{loginBean.validatePassword()}"
+                                         styleClass="ui-button-raised submit_button" update="messages"/>
+                    </h:form>
+                </div>
+            </div>
+        </p:inplace>
+    </div>
+</h:body>
+</html>

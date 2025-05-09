@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>#{msgs.confirmCancelDialogTitle}</title>
+    <style>
+        #cancel_confirmation {padding: 0 30px 30px;}
+        #buttons {margin-top: 20px;}
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="cancel_confirmation">
+        <div id="message">
+            <p>#{msgs.confirmCancelDialogMessage}</p>
+        </div>
+        <div id="buttons">
+            <p:commandButton ajax="false" value="#{msgs.confirmCancelButton}" action="#{problemBean.dialogResult(1)}"
+                             icon="pi pi-trash" styleClass="ui-button-raised ui-button-danger"
+                             title="#{msgs.confirmCancelButtonTitle}"
+            />
+            <p:spacer width="20"/>
+            <p:commandButton value="#{msgs.continueEditingButton}" action="#{problemBean.dialogResult(2)}"
+                             icon="pi pi-file-edit" styleClass="ui-button-raised ui-button-success"
+                             title="#{msgs.continueEditingButtonTitle}"/>
+            <p:spacer width="20"/>
+        </div>
+    </h:form>
+</h:body>
+
+</html>

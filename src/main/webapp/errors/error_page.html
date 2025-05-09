@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>500 - Internal Server Error</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #0096ff;
+            font-size: 1.2em;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #message {
+            display: inline-block;
+            vertical-align: top;
+            margin: 50px 30px;
+        }
+
+        .color_strip, .white_strip {
+            height: 33vh;
+            width: 100%;
+        }
+
+        .white_strip {
+            padding: 30px 50px;
+            min-height: 300px;
+        }
+        .color_strip {background-color: brown;}
+    </style>
+</head>
+<body>
+<div>
+    <div class="color_strip"></div>
+    <div class="white_strip">
+        <img src="duke_thinking.png" alt="duke thinking" width="300"/>
+        <div id="message">
+            <h1>Oh no...</h1>
+            <p>An unexpected error has occurred. Please try again later.</p>
+            <p>If the problem persists, please contact your system administrator.</p><br/>
+            <a href="http://localhost:8080//ASDV_Assignment-1.1-SNAPSHOT/">
+                <button type="button">Return to Login</button>
+            </a>
+        </div>
+    </div>
+    <div class="color_strip"></div>
+</div>
+</body>
+</html>

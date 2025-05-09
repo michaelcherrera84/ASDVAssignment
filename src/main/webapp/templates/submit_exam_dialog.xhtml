@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>#{msgs.confirmSubmitDialogTitle}</title>
+    <style>
+        #submit_confirmation {padding: 0 30px 30px;}
+        #buttons {margin-top: 40px;}
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="submit_confirmation">
+        <div id="message">
+            <h3>#{param.get("complete") eq "false" ? msgs.confirmSubmitDialogMessage4 : msgs.confirmSubmitDialogMessage1}</h3>
+            <p>#{msgs.confirmSubmitDialogMessage2}</p>
+            <p>#{msgs.confirmSubmitDialogMessage3}</p>
+        </div>
+        <div id="buttons">
+            <p:commandButton ajax="false" value="#{msgs.returnToAssignmentButton}" icon="pi pi-file-edit"
+                             styleClass="ui-button-raised ui-button-secondary" title="#{msgs.returnToAssignmentButtonTitle}"
+                             action="#{examBean.dialogResult(1)}"/>
+            <p:spacer width="20"/>
+            <p:commandButton value="#{msgs.confirmSubmitButton}" icon="pi pi-save"
+                             styleClass="ui-button-raised ui-button-warning" title="#{msgs.confirmSubmitButtonTitle}"
+                             action="#{problemBean.dialogResult(2)}"/>
+            <p:spacer width="20"/>
+        </div>
+    </h:form>
+</h:body>
+
+</html>

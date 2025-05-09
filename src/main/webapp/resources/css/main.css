@@ -1,0 +1,207 @@
+body .ui-growl {
+    top: 300px;
+}
+
+body .ui-panelgrid .ui-panelgrid-cell {
+    border: none;
+    padding: 10px 20px;
+    vertical-align: top;
+}
+
+span .ui-datatable tbody {
+    border-top: 1px solid #218fe8;
+    border-bottom: 1px solid #218fe8;
+}
+
+span .ui-datatable thead th {display: none;}
+
+span .ui-fileupload .ui-fileupload-content .ui-fileupload-files .ui-fileupload-row > div {padding: .75rem;}
+
+span .ui-inplace .ui-inplace-display {padding: 0;}
+
+tbody#assignments_form\:assignments_table_data tr {height: 65px;}
+tbody#assignments_form\:assignments_table_data td {padding: 0 50px;}
+
+thead#assignments_form\:assignments_table_head .ui-state-default {
+    color: white;
+    background: #495057;
+}
+
+#assignments_form\:assignments_table {margin: 50px 0 15px;}
+
+#admin_panel_form {
+    background: white;
+    margin-top: 40px;
+}
+
+#admin_panel_form\:delete_user_panel_content {padding: 20px;}
+
+#admin_panel_form\:edit_user_id_input {margin-bottom: 10px;}
+
+#admin_panel_form\:find_range_button {margin: 0 10px 10px 10px;}
+
+#admin_panel_form\:find_user_grid .ui-panelgrid-cell {vertical-align: middle;}
+
+#admin_panel_form\:remove_user_button {
+    display: block;
+    margin: 15px 0 0;
+}
+
+#download_span .ui-datatable tr {
+    display: inline;
+    border: none !important;
+    background: none !important;
+}
+
+#exam_result {
+    margin: 5px 0 0 10px;
+    padding: 0 20px 20px;
+    box-shadow: 2px 2px 5px #495057;
+}
+
+#file_span .ui-button-icon-only .ui-icon {
+    top: -1px !important;
+    left: 7px !important;
+    margin: 0 !important;
+}
+
+#file_span .ui-inplace .ui-inplace-cancel {
+    width: 40px !important;
+    height: 20px !important;
+    padding: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #0096ff !important;
+}
+
+#file_span .ui-inplace .ui-inplace-cancel .ui-icon:before {content: url("images/collapse.png");}
+
+#file_span .ui-inplace .ui-inplace-editor {
+    float: right;
+    margin-right: 10px;
+}
+
+#file_span .ui-inplace .ui-inplace-save {visibility: hidden;}
+
+#main span .ui-fileupload .ui-fileupload-content .ui-fileupload-cancel .ui-icon:before {
+    position: relative;
+    top: 7px;
+    padding: 4px;
+    color: white;
+    border-radius: 3px;
+    background: #c92d2e;
+    box-shadow: 1px 1px 3px gray;
+}
+
+#nav_form {
+    float: left;
+    margin: 5px 100px 0;
+}
+
+#nav_form a {color: white;}
+
+#problem_add_form {margin: 20px 0 20px 15px;}
+
+#problem_form #in_place_editor {float: right;}
+
+#problem_title {
+    font-size: smaller;
+    height: 50px;
+    margin: 20px 0 20px 0;
+    border-bottom: 2px ridge #4a5056;
+}
+
+#problems_table tr {border-bottom: 2px ridge #4a5056;}
+
+#radio_div .ui-radiobutton {
+    width: 4%;
+    margin: 0 10px 0;
+}
+
+#radio_div1 .ui-radiobutton {
+    width: 20px;
+    margin: 0 10px 0;
+}
+
+#section_table_container {
+    margin-left: 5px;
+    padding: 20px;
+}
+
+.add_button {
+    position: relative;
+    top: 5px;
+}
+
+.answer_input {width: 94%;}
+
+.bottom_buttons {margin: 20px 0 15px;}
+
+.file_delete_button {
+    margin-left: 15px;
+    padding: 0 2px;
+    color: #c92d2e !important;
+    border: 1px solid #c92d2e;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px lightgray;
+}
+
+.file_delete_button:hover {
+    text-decoration: none !important;
+    color: white !important;
+    background: #c92d2e;
+}
+
+.file_upload_buttons {
+    width: 100px !important;
+    height: 35px !important;
+    color: black !important;
+    border: 1px solid black;
+}
+
+.problem_title {
+    position: relative;
+    top: 10px;
+}
+
+.ql-editor.ql-blank::before {
+    font-family: monospace;
+    font-style: normal;
+}
+
+.score_div {
+    padding: 20px 15px;
+    border: 1px solid #4a5056;
+}
+
+.section_table {border: 1px solid #4a5056;}
+
+.section_table_row {height: 50px;}
+
+.status_spinner {padding-top: 25px;}
+
+.total_percent {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.total_score {
+    margin: 0 0 20px;
+    font-size: 1.5em;
+}
+
+.ui-fileupload-content {padding: 1rem 0 0 1rem !important;}
+
+.ui-fileupload-content:before {content: "\1F4CE";}
+
+.ui-fileupload-preview {box-shadow: 1px 1px 5px lightgray;}
+
+.col_large {width: 25%;}
+.col_medium {width: 17%;}
+.col_small {width: 7%;}
+
+.h500 .ui-panel-content {
+    height: 450px;
+}
+
+.valign_mid {vertical-align: middle;}

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/layout.xhtml">
+
+    <ui:param name="title" value="Admin Panel"/>
+    <layoutParams>
+        <ui:param name="area1" value="header"/>
+        <ui:param name="area2" value="header"/>
+        <ui:param name="area3" value="header"/>
+        <ui:param name="area4" value="left"/>
+        <ui:param name="area5" value="main"/>
+        <ui:param name="area6" value="right"/>
+        <ui:param name="area7" value="footer"/>
+        <ui:param name="area8" value="footer"/>
+        <ui:param name="area9" value="right"/>
+        <ui:param name="col1" value="5%"/>
+        <ui:param name="col2" value="85%"/>
+        <ui:param name="col3" value="10%"/>
+    </layoutParams>
+    <renderParams>
+        <ui:param name="right" value="false"/>
+    </renderParams>
+
+    <ui:define name="header">
+        <h1>Admin Panel</h1>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:growl id="growl" showDetail="true" skipDetailIfEqualsSummary="true" keepAlive="true">
+            <p:autoUpdate/></p:growl>
+
+        <h:form id="admin_panel_form">
+            <p:panelGrid id="admin_panel_grid">
+                <p:row>
+                    <p:column colspan="3">
+                        <p:panel id="find_users_panel" header="#{msgs.allUsersHeader}" toggleable="true">
+                            <p:dataTable id="users_table" value="#{adminPanelBean.users}" var="user" rowIndexVar="i"
+                                         scrollable="true" scrollHeight="400">
+                                <p:column headerText="#{msgs.idColumnHeader}" sortBy="#{user.id}"
+                                          styleClass="col_small">
+                                    <p:outputLabel value="#{user.id}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.usernameColumnHeader}" styleClass="col_medium">
+                                    <p:outputLabel value="#{user.username}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.positionColumnHeader}" sortBy="#{user.position}"
+                                          styleClass="col_medium">
+                                    <p:outputLabel value="#{user.position}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.firstNameColumnHeader}" styleClass="col_medium">
+                                    <p:outputLabel value="#{user.fname}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.lastNameColumnHeader}" sortBy="#{user.lname}"
+                                          styleClass="col_medium">
+                                    <p:outputLabel value="#{user.lname}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.dateCreatedColumnHeader}" sortBy="#{user.date}"
+                                          styleClass="col_large">
+                                    <p:outputLabel value="#{user.date}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column colspan="3">
+                        <p:panel id="find_user_range_panel" header="#{msgs.usersInRangeHeader}" toggleable="true"
+                                 collapsed="true">
+                            <p:inputNumber value="#{adminPanelBean.from}" placeholder="#{msgs.fromPlaceholder}" size="9"
+                                           minValue="1" modifyValueOnWheel="false"/>
+                            <p:spacer width="10"/>
+                            <p:inputNumber value="#{adminPanelBean.to}" placeholder="#{msgs.toPlaceholder}" size="9"
+                                           modifyValueOnWheel="false"/>
+                            <p:commandButton id="find_range_button" value="#{msgs.findRangeButton}" icon="pi pi-users"
+                                             process="find_user_range_panel" styleClass="ui-button-raised"
+                                             action="#{adminPanelBean.findUserRange()}" title="#{msgs.findRangeTitle}"
+                                             update="find_user_range_panel"/>
+                            <p:outputLabel for="find_range_button">#{msgs.findRandButtonLabel}</p:outputLabel>
+                            <p:dataTable id="users_range_table" value="#{adminPanelBean.userRange}" var="user"
+                                         rowIndexVar="i" scrollable="true" scrollHeight="400">
+                                <p:column headerText="#{msgs.idColumnHeader}" styleClass="col_small">
+                                    <p:outputLabel value="#{user.id}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.usernameColumnHeader}" styleClass="col_medium">
+                                    <p:outputLabel value="#{user.username}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.positionColumnHeader}" styleClass="col_medium">
+                                    <p:outputLabel value="#{user.position}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.firstNameColumnHeader}" styleClass="col_medium">
+                                    <p:outputLabel value="#{user.fname}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.lastNameColumnHeader}" styleClass="col_medium">
+                                    <p:outputLabel value="#{user.lname}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs.dateCreatedColumnHeader}" styleClass="col_large">
+                                    <p:outputLabel value="#{user.date}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:panel id="add_user_panel" header="#{msgs.addUserHeader}" styleClass="h500" toggleable="true"
+                                 collapsed="true">
+                            <p:panelGrid id="add_user_grid" columns="1">
+                                <p:selectOneMenu id="add_position_menu" value="#{adminPanelBean.addUser.position}"
+                                                 required="true" requiredMessage="#{msgs.positionRequiredMessage}">
+                                    <f:selectItem itemLabel="#{msgs.positionItemLabel}" itemValue=""/>
+                                    <f:selectItem itemLabel="#{msgs.administratorItemLabel}" itemValue="administrator"/>
+                                    <f:selectItem itemLabel="#{msgs.instructorItemLabel}" itemValue="instructor"/>
+                                    <f:selectItem itemLabel="#{msgs.studentItemLabel}" itemValue="student"/>
+                                </p:selectOneMenu>
+                                <p:inputText id="test" placeholder="#{msgs.firstNameColumnHeader}"
+                                             value="#{adminPanelBean.addUser.fname}"
+                                             required="true" requiredMessage="#{msgs.firstNameRequiredMessage}"/>
+                                <p:inputText placeholder="#{msgs.lastNameColumnHeader}"
+                                             value="#{adminPanelBean.addUser.lname}"
+                                             required="true" requiredMessage="#{msgs.lastNameRequiredMessage}"/>
+                                <p:inputText placeholder="#{msgs.usernameColumnHeader}"
+                                             value="#{adminPanelBean.addUser.username}"
+                                             required="true" requiredMessage="#{msgs.userNameRequiredMessage}"/>
+                                <p:password id="add_user_password1" placeholder="#{msgs.passwordPlaceholder}"
+                                            match="add_user_password2"
+                                            value="#{adminPanelBean.addUser.password}" feedback="true" inline="true"
+                                            validatorMessage="#{msgs.passwordValidatorMessage}" required="true"
+                                            requiredMessage="#{msgs.passwordRequiredMessage}"/>
+                                <p:password id="add_user_password2" placeholder="#{msgs.confirmPasswordPlaceholder}"/>
+                                <p:commandButton value="#{msgs.addButton}" action="#{adminPanelBean.insertUser()}"
+                                                 icon="pi pi-user-plus" process="add_user_panel"
+                                                 title="#{msgs.addButtonTitle}"
+                                                 styleClass="ui-button-raised" resetValues="true"
+                                                 update="add_user_panel users_table users_range_table count_users_panel"/>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:column>
+
+                    <p:column>
+                        <p:panel id="find_user_panel" header="#{msgs.findUserHeader}" styleClass="h500"
+                                 toggleable="true"
+                                 collapsed="true" widgetVar="find_user_panel">
+                            <p:panelGrid id="find_user_grid" columns="2" contentStyleClass="valign_mid">
+                                <p:inputNumber value="#{adminPanelBean.findUser.id}"
+                                               placeholder="#{msgs.userIDPlaceHolder}" size="9"
+                                               modifyValueOnWheel="false" required="true"
+                                               requiredMessage="#{msgs.userIdRequiredMessage}"/>
+                                <p:commandButton value="#{msgs.findButton}" action="#{adminPanelBean.findUser()}"
+                                                 process="find_user_panel" styleClass="ui-button-raised"
+                                                 update="find_user_panel" icon="pi pi-user"
+                                                 title="#{msgs.findButtonTitle}"/>
+                                <p:outputLabel for="find_user_id" value="#{msgs.userIDPlaceHolder}"/>
+                                <p:inputText value="#{adminPanelBean.findUser.id}" id="find_user_id" disabled="true"/>
+                                <p:outputLabel for="find_user_username" value="#{msgs.usernameColumnHeader}"/>
+                                <p:inputText value="#{adminPanelBean.findUser.username}" id="find_user_username"
+                                             disabled="true"/>
+                                <p:outputLabel for="find_user_position" value="#{msgs.positionColumnHeader}"/>
+                                <p:inputText value="#{adminPanelBean.findUser.position}" id="find_user_position"
+                                             disabled="true"/>
+                                <p:outputLabel for="find_user_fname" value="#{msgs.firstNameColumnHeader}"/>
+                                <p:inputText value="#{adminPanelBean.findUser.fname}" id="find_user_fname"
+                                             disabled="true"/>
+                                <p:outputLabel for="find_user_lname" value="#{msgs.lastNameColumnHeader}"/>
+                                <p:inputText value="#{adminPanelBean.findUser.lname}" id="find_user_lname"
+                                             disabled="true"/>
+                                <p:outputLabel for="find_user_date" value="#{msgs.dateCreatedColumnHeader}"/>
+                                <p:datePicker value="#{adminPanelBean.findUser.date}" id="find_user_date"
+                                              disabled="true" showTime="true"/>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:column>
+
+                    <p:column>
+                        <p:panel id="edit_user_panel" header="#{msgs.editUserHeader}" styleClass="h500"
+                                 toggleable="true"
+                                 collapsed="true">
+                            <p:inputNumber id="edit_user_id" value="#{adminPanelBean.updateUser.id}"
+                                           placeholder="#{msgs.userIDPlaceHolder}" size="9"
+                                           modifyValueOnWheel="false" required="true"
+                                           requiredMessage="#{msgs.userIdRequiredMessage}" styleClass="ml20 mb20"/>
+                            <p:spacer width="15"/>
+                            <p:commandButton value="#{msgs.findButton}" action="#{adminPanelBean.findUpdateUser()}" 
+                                             icon="pi pi-search" process="@this edit_user_id" update="edit_user_grid"/>
+                            <p:panelGrid id="edit_user_grid" columns="1" columnClasses="edit_user_row_height">
+                                <p:selectOneMenu value="#{adminPanelBean.updateUser.position}"
+                                                 id="edit_position_menu" required="true"
+                                                 requiredMessage="#{msgs.positionRequiredMessage}">
+                                    <f:selectItem itemLabel="#{msgs.positionItemLabel}" itemValue=""/>
+                                    <f:selectItem itemLabel="#{msgs.administratorItemLabel}" itemValue="administrator"/>
+                                    <f:selectItem itemLabel="#{msgs.instructorItemLabel}" itemValue="instructor"/>
+                                    <f:selectItem itemLabel="#{msgs.studentItemLabel}" itemValue="student"/>
+                                </p:selectOneMenu>
+                                <p:inputText value="#{adminPanelBean.updateUser.fname}"
+                                             placeholder="#{msgs.firstNameColumnHeader}"
+                                             required="true" requiredMessage="#{msgs.firstNameRequiredMessage}"/>
+                                <p:inputText value="#{adminPanelBean.updateUser.lname}"
+                                             placeholder="#{msgs.lastNameColumnHeader}"
+                                             required="true" requiredMessage="#{msgs.lastNameRequiredMessage}"/>
+                                <p:inputText value="#{adminPanelBean.updateUser.username}"
+                                             placeholder="#{msgs.usernameColumnHeader}"
+                                             required="true" requiredMessage="#{msgs.userNameRequiredMessage}"/>
+                                <p:commandButton value="#{msgs.updateButton}" action="#{adminPanelBean.updateUser()}"
+                                                 process="edit_user_panel" title="#{msgs.updateButtonTitle}"
+                                                 icon="pi pi-user-edit" styleClass="ui-button-raised"
+                                                 update="edit_user_panel users_table users_range_table find_user_panel"/>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:panel id="delete_user_panel" header="#{msgs.removeUserHeader}" toggleable="true"
+                                 collapsed="true">
+                            <p:inputNumber id="delete_user_id" value="#{adminPanelBean.deleteUser.id}"
+                                           validator="#{adminPanelBean.validateDeleteID}"
+                                           placeholder="#{msgs.userIDPlaceHolder}" size="9" modifyValueOnWheel="false"
+                                           autocomplete="false" minValue="1" required="true"
+                                           requiredMessage="#{msgs.userIdRequiredMessage}"/>
+                            <p:commandButton id="remove_user_button" value="#{msgs.removeButton}"
+                                             process="delete_user_id"
+                                             icon="pi pi-user-minus" title="#{msgs.removeButtonTitle}"
+                                             styleClass="m10 ui-button-warning ui-button-raised"/>
+                            <p:dialog id="confirm_delete_dialog" widgetVar="confirm_delete"
+                                      header="#{msgs.confirmRemovalDialogHeader}"
+                                      showHeader="true" closable="false">
+                                <p:outputLabel id="comfirm_removal_message" styleClass="block mb20"
+                                               value="#{msgs.confirmRemovalDialogMessage}"/>
+                                <p:commandButton value="#{msgs.yesButton}" action="#{adminPanelBean.deleteUser()}"
+                                                 onclick="PF('confirm_delete').hide()" process="@this"
+                                                 title="#{msgs.yesButtonTitle}"
+                                                 update="delete_user_panel users_table users_range_table count_users_panel find_user_panel"
+                                                 styleClass="ui-button-danger ui-button-raised" icon="pi pi-trash"/>
+                                <p:spacer width="15"/>
+                                <p:commandButton value="#{msgs.noButton}" onclick="PF('confirm_delete').hide()"
+                                                 process="@this" title="#{msgs.noButtonTitle}"
+                                                 update="delete_user_id" icon="pi pi-stop-circle"
+                                                 actionListener="#{adminPanelBean.resetDelete()}"
+                                                 styleClass="ui-button-raised ui-button-warning"/>
+                            </p:dialog>
+                        </p:panel>
+                    </p:column>
+
+                    <p:column>
+                        <p:panel id="count_users_panel" header="#{msgs.userCountHeader}" toggleable="true"
+                                 collapsed="true">
+                            <p:outputLabel value="#{adminPanelBean.userCount}"> #{msgs.userCountLabel}</p:outputLabel>
+                        </p:panel>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="footer">
+        <p:spacer height="150"/>
+    </ui:define>
+</ui:composition>

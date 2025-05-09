@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../templates/layout.xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="title" value="#{msgs.applicationTitle} - #{examResultBean.assignment.name}"/>
+    <layoutParams>
+        <ui:param name="area1" value="header"/>
+        <ui:param name="area2" value="header"/>
+        <ui:param name="area3" value="header"/>
+        <ui:param name="area4" value="left"/>
+        <ui:param name="area5" value="main"/>
+        <ui:param name="area6" value="right"/>
+        <ui:param name="area7" value="footer"/>
+        <ui:param name="area8" value="footer"/>
+        <ui:param name="area9" value="right"/>
+        <ui:param name="col1" value="5%"/>
+        <ui:param name="col2" value="70%"/>
+        <ui:param name="col3" value="25%"/>
+    </layoutParams>
+    <renderParams>
+        <ui:param name="left" value="false"/>
+        <ui:param name="footer" value="false"/>
+    </renderParams>
+
+    <ui:define name="head">
+        <style>
+            .ui-datatable thead th {display: none;}
+            .ql-editor {padding: 35px 25px;}
+            .ui-sticky {
+                right: -5px;
+                width: 347px;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="header">
+        <h:form id="nav_form">
+            <p:link value="#{msgs.navAssignments}" outcome="assignments_table.xhtml" title="#{msgs.navToAssignments}"/>
+        </h:form>
+        <h1>#{examResultBean.assignment.name}</h1>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:dataTable id="problems_table" widgetVar="problems_table" value="#{examResultBean.examProblemBeanList}"
+                     var="bean"
+                     rowIndexVar="i" editable="false" multiViewState="true" styleClass="pt50">
+            <p:column>
+                <ui:include src="exam_result_problem.xhtml">
+                    <ui:param name="bean" value="#{bean}"/>
+                    <ui:param name="parent" value="problems_table"/>
+                </ui:include>
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+    <ui:define name="right">
+        <p:card id="exam_result">
+            <div class="score_div">
+                <p:outputLabel id="total_score" value="#{examResultBean.totalScore}" styleClass="block total_score"/>
+                <p:outputLabel id="total_percent" value="#{examResultBean.totalPercentage}"
+                               styleClass="block total_percent"/>
+            </div>
+        </p:card>
+        <p:sticky target="exam_result"/>
+    </ui:define>
+</ui:composition>

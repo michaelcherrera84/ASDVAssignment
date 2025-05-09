@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <header id="problem_title">
+        <h2 class="inline problem_title">#{msgs.problemNum.concat(i + 1)}</h2>
+        <h2 class="right mr10 problem_title">#{bean.problem.points}&#160;&#160;#{msgs.problemPoints}</h2>
+    </header>
+    <p:growl id="problem_growl" showDetail="true" skipDetailIfEqualsSummary="true"
+             keepAlive="true"><p:autoUpdate/></p:growl>
+    <h:form id="problem_form">
+        <p:remoteCommand name="attemptedCount" actionListener="#{bean.setAttemptCount()}"/>
+        <p:remoteCommand name="setFileWaiting" actionListener="#{bean.setFilesWaiting()}"/>
+        <p:textEditor id="problem_editor" value="#{bean.text}" widgetVar="#{bean}problem_editor" secure="false"
+                      readonly="true" height="400">
+            <f:facet name="toolbar">
+                    <span id="download_span">
+                        <p:dataTable id="file_links" value="#{bean.links}" var="link" emptyMessage=" ">
+                            <p:column>
+                                <p:commandLink value="#{link}" ajax="false" title="#{msgs.downloadFileTitle}"
+                                               actionListener="#{bean.setDownloadFile(link)}">
+                                    <p:fileDownload value="#{bean.downloadFile()}"/>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </span>
+            </f:facet>
+        </p:textEditor>
+        <div id="radio_div1">
+            <p:selectOneRadio id="answer_radio" value="#{bean.correctAnswer}">
+                <p:ajax event="click" listener="#{bean.setAnswerChanged}" update="answer_save" process="answer_radio"/>
+                <f:selectItem itemValue="1"/>
+                <f:selectItem itemValue="2"/>
+                <f:selectItem itemValue="3"/>
+                <f:selectItem itemValue="4"/>
+
+                <f:facet name="custom">
+                <span class="mt10 mb10 block">
+                    <p:radioButton id="facet1" for="answer_radio" itemIndex="0"/>
+                    <p:outputLabel value="#{bean.answer1}"/>
+                </span>
+                    <span class="mb10 block">
+                    <p:radioButton id="facet2" for="answer_radio" itemIndex="1"/>
+                    <p:outputLabel value="#{bean.answer2}"/>
+                </span>
+                    <span class="mb10 block">
+                    <p:radioButton id="facet3" for="answer_radio" itemIndex="2"/>
+                    <p:outputLabel value="#{bean.answer3}"/>
+                </span>
+                    <span class="mb10 block">
+                    <p:radioButton id="facet4" for="answer_radio" itemIndex="3"/>
+                    <p:outputLabel value="#{bean.answer4}"/>
+                </span>
+                </f:facet>
+            </p:selectOneRadio>
+        </div>
+        <p:commandButton id="answer_save" value="#{msgs.saveEditsButtonValue}" action="#{bean.saveAnswer(true)}"
+                         title="#{msgs.saveButtonTitle}" disabled="#{bean.answerChanged ? false : true}"
+                         icon="pi pi-chevron-right" iconPos="right" styleClass="ui-button-raised"
+                         oncomplete="PF('problems_table').getPaginator().setPage(#{i + 1});"
+                         style="margin-top: 15px;"/>
+    </h:form>
+
+</ui:composition>

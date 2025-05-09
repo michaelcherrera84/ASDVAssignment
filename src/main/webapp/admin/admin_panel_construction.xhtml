@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>404 - Page Not Found</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #0096ff;
+            font-size: 1.2em;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #message {
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 30px;
+        }
+
+        #link a {
+            text-decoration: none;
+        }
+
+        .color_strip, .white_strip {
+            height: 33.3vh;
+            width: 100%;
+        }
+
+        .color_strip {background-color: brown;}
+
+        .duke_size {max-height: 140%;}
+
+        .ui-button .ui-button-text {text-decoration: none;}
+
+        .white_strip {
+            padding: 30px 50px;
+            min-height: 300px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    #{loginBean.logout(false)}
+    <div class="color_strip"></div>
+    <div class="white_strip">
+        <p:graphicImage library="images" name="duke_thinking.png" styleClass="duke_size"/>
+        <div id="message">
+            <h1>Under Construction</h1>
+            <p>The page you have requested is still in development</p>
+            <p>Please use our Admin Panel site by clicking the button below.</p><br/>
+            <p:linkButton id="link" href="http://localhost:8080/ASDV_Admin-1.0-SNAPSHOT/" value="Admin Panel App"
+                          styleClass="ui-button-raised ui-button-secondary"/>
+        </div>
+    </div>
+    <div class="color_strip"></div>
+</h:body>
+
+</html>

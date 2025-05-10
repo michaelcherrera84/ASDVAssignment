@@ -74,7 +74,7 @@ public class LoginBean {
      * expected password associated with the current user.
      */
     public String validatePassword() {
-
+        
         try {
             User user = userFacade.findByUsername(username);
             // If the username exists validate the password.

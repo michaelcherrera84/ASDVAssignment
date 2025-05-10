@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.michaelcherrera</groupId>
-    <artifactId>ASDV_Assignment</artifactId>
+    <artifactId>ASDVAssignment</artifactId>
     <version>1.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>ASDV_Assignment</name>
+    <name>ASDV Assignment</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

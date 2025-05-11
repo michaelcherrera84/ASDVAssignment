@@ -74,6 +74,11 @@ public class LoginBean {
      * expected password associated with the current user.
      */
     public String validatePassword() {
+
+        //todo: Remove testing login credentials
+        if (username.equals("admin")) {
+            return UserType.getLogin(UserType.ADMINISTRATOR);
+        }
         
         try {
             User user = userFacade.findByUsername(username);

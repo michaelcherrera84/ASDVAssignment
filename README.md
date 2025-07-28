@@ -11,9 +11,13 @@ This is a school project developed as a basic Learning Management System (LMS), 
   - Students can view available exams and submit their responses.
 
 ## Screenshots
-![Screenshot](/screenshots/1.png)
-![Screenshot](/screenshots/2.png)
-![Screenshot](/screenshots/3.png)
+![Screenshot](/screenshots/asdv-assignments1.gif)
+![Screenshot](/screenshots/asdv-assignments2.png)
+![Screenshot](/screenshots/asdv-assignments3.png)
+![Screenshot](/screenshots/asdv-assignments4.gif)
+![Screenshot](/screenshots/asdv-assignments5.png)
+![Screenshot](/screenshots/asdv-assignments6.gif)
+
 
 ## Tech Stack
 - **JSF (JavaServer Faces)**: A Java web framework for building user interfaces.
